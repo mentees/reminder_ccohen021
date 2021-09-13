@@ -1,14 +1,15 @@
 import datetime
 import tkinter
+import time
 from tkinter import messagebox
 # tkinter credit: https://stackoverflow.com/questions/177287/alert-boxes-in-python 
 
 def main():
     # Get input
-    user_date, user_time, user_task = user_input()
+    user_date, user_time, user_task, long_date = user_input()
 
     # Process
-    timer(user_date, user_time)
+    timer(user_date, user_time, long_date)
 
     # Output
     # Hide the main tkinter window
@@ -40,6 +41,7 @@ def user_input():
         user_date = input("Enter a date (YYYY-MM-DD): ")
         date_flag = validate_date(user_date)
         if date_flag:
+            long_date = user_date
             user_date = datetime.datetime.strptime(user_date, "%Y-%m-%d") 
             today = datetime.datetime.strptime(datetime.date.today().strftime("%Y-%m-%d"), "%Y-%m-%d")
             #if date_flag:
@@ -49,6 +51,7 @@ def user_input():
                     user_time = input("Enter a time (HH:MM in 24-hour format): ")
                     date_flag = validate_time(user_time)
                     if date_flag:
+                        long_date = long_date + " " + user_time
                         user_time = datetime.datetime.strptime(user_time, "%H:%M")
                         now = datetime.datetime.strptime(datetime.datetime.now().strftime("%H:%M"), "%H:%M")
                         if now < user_time:
@@ -59,10 +62,18 @@ def user_input():
             else:
                 print("The date has already passed. Try a different date")                
 
-    return user_date, user_time, user_task
+    return user_date, user_time, user_task, long_date
 
 # Process
-def timer(user_date, user_time):    
+def timer(user_date, user_time, long_date):    
+    # check how much time is left
+    user_long_date = datetime.datetime.strptime(long_date, "%Y-%m-%d %H:%M")
+    current_long_date = datetime.datetime.strptime(datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), "%Y-%m-%d %H:%M")
+    time_left = user_long_date - current_long_date
+    time_left = time_left.seconds - 5
+    time.sleep(time_left)
+
+
     # check date
     while True:
         today = datetime.datetime.strptime(datetime.date.today().strftime("%Y-%m-%d"), "%Y-%m-%d")
