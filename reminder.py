@@ -51,13 +51,18 @@ def user_input():
                     user_time = input("Enter a time (HH:MM in 24-hour format): ")
                     date_flag = validate_time(user_time)
                     if date_flag:
-                        long_date = long_date + " " + user_time + ":00"
+                        temp = user_time
                         user_time = datetime.datetime.strptime(user_time, "%H:%M")
                         now = datetime.datetime.strptime(datetime.datetime.now().strftime("%H:%M"), "%H:%M")
-                        if now < user_time:
-                            break
+                        if today == user_date:
+                            if now < user_time:
+                                long_date = long_date + " " + temp + ":00"
+                                break
+                            else:
+                                print("The time has already passed. Enter a different time")
                         else:
-                            print("The time has already passed. Enter a different time")
+                            long_date = long_date + " " + temp + ":00"
+                            break
                 break
             else:
                 print("The date has already passed. Try a different date")                
