@@ -74,8 +74,19 @@ def timer(user_date, user_time, long_date):
     # check how much time is left
     user_long_date = datetime.datetime.strptime(long_date, "%Y-%m-%d %H:%M:%S")
     current_long_date = datetime.datetime.strptime(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "%Y-%m-%d %H:%M:%S")
-    time_left = (user_long_date - current_long_date).seconds
+    time_left = (user_long_date - current_long_date).total_seconds()
+
+    # worst case, user enters next minute a second before execution
+    if time_left <= 0:
+        print("You're reminder just passed. Reminder moved on to one minute later.")
+        time_left = 60
+        luck_flag = True
+    
     time.sleep(time_left)
+
+    if luck_flag:
+        return
+
 
 
     # check date
