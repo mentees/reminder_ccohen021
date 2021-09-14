@@ -51,7 +51,7 @@ def user_input():
                     user_time = input("Enter a time (HH:MM in 24-hour format): ")
                     date_flag = validate_time(user_time)
                     if date_flag:
-                        long_date = long_date + " " + user_time
+                        long_date = long_date + " " + user_time + ":00"
                         user_time = datetime.datetime.strptime(user_time, "%H:%M")
                         now = datetime.datetime.strptime(datetime.datetime.now().strftime("%H:%M"), "%H:%M")
                         if now < user_time:
@@ -67,10 +67,9 @@ def user_input():
 # Process
 def timer(user_date, user_time, long_date):    
     # check how much time is left
-    user_long_date = datetime.datetime.strptime(long_date, "%Y-%m-%d %H:%M")
-    current_long_date = datetime.datetime.strptime(datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), "%Y-%m-%d %H:%M")
-    time_left = user_long_date - current_long_date
-    time_left = time_left.seconds - 5
+    user_long_date = datetime.datetime.strptime(long_date, "%Y-%m-%d %H:%M:%S")
+    current_long_date = datetime.datetime.strptime(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "%Y-%m-%d %H:%M:%S")
+    time_left = (user_long_date - current_long_date).seconds
     time.sleep(time_left)
 
 
