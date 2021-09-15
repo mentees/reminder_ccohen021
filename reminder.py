@@ -77,6 +77,7 @@ def timer(user_date, user_time, long_date):
     time_left = (user_long_date - current_long_date).total_seconds()
 
     # worst case, user enters next minute a second before execution
+    luck_flag = False
     if time_left <= 0:
         print("You're reminder just passed. Reminder moved on to one minute later.")
         time_left = 60
